@@ -1,18 +1,9 @@
 
 #include <stdio.h>
 #include <locale.h>
-#include <wchar.h>
 
-void guardarDatos(const char* nombreArchivo, const char* contenido) {
-    FILE* archivo = fopen(nombreArchivo, "w+");
-    if (archivo != NULL) {
-        fprintf(archivo, "%s", contenido);
-        fclose(archivo);
-    } else {
-        wprintf(L"No se pudo abrir el archivo para escritura.\n");
-    }
-}
-
+void guardarDatos(int matriz2017[7][2], int matriz2018[7][2], int matriz2019[7][2], int matriz2020[7][2], int matriz2021[7][2]);
+void cargarDatos(int matriz2017[7][2], int matriz2018[7][2], int matriz2019[7][2], int matriz2020[7][2], int matriz2021[7][2]);
 void opcion1(int matriz2017[7][2], int matriz2018[7][2], int matriz2019[7][2], int matriz2020[7][2], int matriz2021[7][2]);
 void opcion2(int matriz2021[7][2]);
 void opcion3(int matriz2017[7][2], int matriz2018[7][2], int matriz2019[7][2], int matriz2020[7][2], int matriz2021[7][2]);
@@ -37,15 +28,16 @@ int main() {
         {156, 78}, {200, 46}, {75, 38}, {90, 47}, {34, 15}, {82, 98}, {69, 74}
     };
 
+    guardarDatos(matriz2017, matriz2018, matriz2019, matriz2020, matriz2021);
+
     do {
-        wprintf(L"---- Menú ----\n");
-        wprintf(L"1. Año en el que ingresó la mayor cantidad de alumnos\n");
-        wprintf(L"2. Carrera que recibió la mayor cantidad de alumnos en el último año\n");
-        wprintf(L"3. Año en donde Software recibió la mayor cantidad de alumnos\n");
-        wprintf(L"4. Salir\n");
-        wprintf(L"Opción: ");
+        printf("---- Menú ----\n");
+        printf("1. Año en el que ingresó la mayor cantidad de alumnos\n");
+        printf("2. Carrera que recibió la mayor cantidad de alumnos en el último año\n");
+        printf("3. Año en donde Software recibió la mayor cantidad de alumnos\n");
+        printf("4. Salir\n");
+        printf("Opción: ");
         scanf("%d", &opcion);
-        fflush(stdin);
 
         switch (opcion) {
             case 1:
@@ -58,20 +50,113 @@ int main() {
                 opcion3(matriz2017, matriz2018, matriz2019, matriz2020, matriz2021);
                 break;
             case 4:
-                wprintf(L"Saliendo...\n");
+                printf("Saliendo...\n");
                 break;
             default:
-                wprintf(L"Opción inválida. Intente nuevamente.\n");
+                printf("Opción inválida. Intente nuevamente.\n");
                 break;
         }
-        wprintf(L"\n");
 
+        printf("\n");
     } while (opcion != 4);
 
     return 0;
 }
 
+void guardarDatos(int matriz2017[7][2], int matriz2018[7][2], int matriz2019[7][2], int matriz2020[7][2], int matriz2021[7][2]) {
+    FILE *archivo;
+    archivo = fopen("datos.txt", "w");
+
+    if (archivo == NULL) {
+        printf("No se pudo abrir el archivo.\n");
+        return;
+    }
+
+    int i, j;
+    for (i = 0; i < 7; i++) {
+        for (j = 0; j < 2; j++) {
+            fprintf(archivo, "%d ", matriz2017[i][j]);
+        }
+        fprintf(archivo, "\n");
+    }
+
+    for (i = 0; i < 7; i++) {
+        for (j = 0; j < 2; j++) {
+            fprintf(archivo, "%d ", matriz2018[i][j]);
+        }
+        fprintf(archivo, "\n");
+    }
+
+    for (i = 0; i < 7; i++) {
+        for (j = 0; j < 2; j++) {
+            fprintf(archivo, "%d ", matriz2019[i][j]);
+        }
+        fprintf(archivo, "\n");
+    }
+
+    for (i = 0; i < 7; i++) {
+        for (j = 0; j < 2; j++) {
+            fprintf(archivo, "%d ", matriz2020[i][j]);
+        }
+        fprintf(archivo, "\n");
+    }
+
+    for (i = 0; i < 7; i++) {
+        for (j = 0; j < 2; j++) {
+            fprintf(archivo, "%d ", matriz2021[i][j]);
+        }
+        fprintf(archivo, "\n");
+    }
+
+    fclose(archivo);
+}
+
+void cargarDatos(int matriz2017[7][2], int matriz2018[7][2], int matriz2019[7][2], int matriz2020[7][2], int matriz2021[7][2]) {
+    FILE *archivo;
+    archivo = fopen("datos.txt", "r");
+
+    if (archivo == NULL) {
+        printf("No se pudo abrir el archivo.\n");
+        return;
+    }
+
+    int i, j;
+    for (i = 0; i < 7; i++) {
+        for (j = 0; j < 2; j++) {
+            fscanf(archivo, "%d", &matriz2017[i][j]);
+        }
+    }
+
+    for (i = 0; i < 7; i++) {
+        for (j = 0; j < 2; j++) {
+            fscanf(archivo, "%d", &matriz2018[i][j]);
+        }
+    }
+
+    for (i = 0; i < 7; i++) {
+        for (j = 0; j < 2; j++) {
+            fscanf(archivo, "%d", &matriz2019[i][j]);
+        }
+    }
+
+    for (i = 0; i < 7; i++) {
+        for (j = 0; j < 2; j++) {
+            fscanf(archivo, "%d", &matriz2020[i][j]);
+        }
+    }
+
+    for (i = 0; i < 7; i++) {
+        for (j = 0; j < 2; j++) {
+            fscanf(archivo, "%d", &matriz2021[i][j]);
+        }
+    }
+
+    fclose(archivo);
+}
+
 void opcion1(int matriz2017[7][2], int matriz2018[7][2], int matriz2019[7][2], int matriz2020[7][2], int matriz2021[7][2]) {
+    cargarDatos(matriz2017, matriz2018, matriz2019, matriz2020, matriz2021);
+
     int i, j;
     int mayor = 0;
     int anoMayor = 0;
@@ -95,9 +180,7 @@ void opcion1(int matriz2017[7][2], int matriz2018[7][2], int matriz2019[7][2], i
         }
     }
 
-    wchar_t resultado[100];
-    swprintf(resultado, sizeof(resultado), L"El año en donde más estudiantes ingresaron a la universidad fue %d.\n", anoMayor);
-    guardarDatos("resultado.txt", resultado);
+    printf("El año en donde más estudiantes ingresaron a la universidad fue %d.\n", anoMayor);
 }
 
 void opcion2(int matriz2021[7][2]) {
@@ -105,7 +188,6 @@ void opcion2(int matriz2021[7][2]) {
     int total;
     int mayor = 0;
     int fila = 0;
-
     char carreras[7][25] = {
         "Ing. Software", "Administración", "Economía", "Relaciones internacionales", "Matemáticas", "Contabilidad", "Ing. Industrial"
     };
@@ -121,12 +203,12 @@ void opcion2(int matriz2021[7][2]) {
         }
     }
 
-    wchar_t resultado[100];
-    swprintf(resultado, sizeof(resultado), L"La carrera en donde más estudiantes ingresaron el último año es: %hs\n", carreras[fila]);
-    guardarDatos("resultado.txt", resultado);
+    printf("La carrera en donde más estudiantes ingresaron el último año es: %s\n", carreras[fila]);
 }
 
 void opcion3(int matriz2017[7][2], int matriz2018[7][2], int matriz2019[7][2], int matriz2020[7][2], int matriz2021[7][2]) {
+    cargarDatos(matriz2017, matriz2018, matriz2019, matriz2020, matriz2021);
+
     int i, j;
     int mayor = 0;
     int anoMayor = 0;
@@ -150,7 +232,5 @@ void opcion3(int matriz2017[7][2], int matriz2018[7][2], int matriz2019[7][2], i
         }
     }
 
-    wchar_t resultado[100];
-    swprintf(resultado, sizeof(resultado), L"El año en donde más estudiantes ingresaron a la carrera de Ing. Software fue: %d\n", anoMayor);
-    guardarDatos("resultado.txt", resultado);
+    printf("El año en donde más estudiantes ingresaron a la carrera de Ing. Software fue %d.\n", anoMayor);
 }
